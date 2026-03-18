@@ -261,15 +261,17 @@ const handleSwitchConfirm = async () => {
 
 // 复制活码链接
 const handleCopyLink = (code) => {
-  // 优先用当前页面的 hostname（后台与活码同域时可用）
+  // 自动检测当前页面的协议和域名
+  const protocol = window.location.protocol
   const domain = window.location.hostname
-  const url = `https://${domain}/${code}`
+  const url = `${protocol}//${domain}/${code}`
+  
   navigator.clipboard.writeText(url).then(() => {
     ElMessage.success(`已复制：${url}`)
   }).catch(() => {
     // 降级方案：弹出提示让用户手动复制
     ElMessage({
-      message: `请手动复制：https://${domain}/${code}`,
+      message: `请手动复制：${url}`,
       type: 'info',
       duration: 5000
     })
