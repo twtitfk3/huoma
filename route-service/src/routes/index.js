@@ -50,7 +50,12 @@ router.get('/:code([A-Za-z0-9]{6})', async (req, res) => {
             `);
         }
 
-        // 返回路由页面，将活动数据注入到HTML中
+        // 如果有主链接，直接302重定向（无中间页面）
+        if (activity.main_link) {
+            return res.redirect(activity.main_link);
+        }
+
+        // 没有主链接，返回选择页面
         const filePath = path.join(__dirname, '../views/route.html');
         let html = '';
 

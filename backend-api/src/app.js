@@ -5,6 +5,7 @@ const path = require('path');
 
 const activitiesRouter = require('./routes/activities');
 const switchLogsRouter = require('./routes/switchLogs');
+const configRouter = require('./routes/config');
 const database = require('./config/database');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 // API路由
 app.use('/api/activities', activitiesRouter);
 app.use('/api/switch-logs', switchLogsRouter);
+app.use('/api/config', configRouter);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

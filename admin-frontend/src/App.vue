@@ -60,11 +60,11 @@ const handleSelect = (index) => {
   box-sizing: border-box;
 }
 
-:deep(.el-container) {
+::deep(.el-container) {
   background: #f5f7fa;
 }
 
-:deep(.el-header) {
+::deep(.el-header) {
   background: white;
   border-bottom: 1px solid #e4e7ed;
   padding: 0 20px;
@@ -83,21 +83,23 @@ const handleSelect = (index) => {
   color: #409eff;
 }
 
-:deep(.el-menu) {
+::deep(.el-menu) {
   border-bottom: none;
   flex: 1;
   justify-content: flex-end;
 }
 
-:deep(.el-menu-item) {
+::deep(.el-menu-item) {
   border-bottom: 2px solid transparent;
+  margin: 0 4px;
+  padding: 0 12px;
 }
 
-:deep(.el-menu-item.is-active) {
+::deep(.el-menu-item.is-active) {
   border-bottom-color: #409eff;
 }
 
-:deep(.el-main) {
+::deep(.el-main) {
   padding: 20px;
 }
 </style>

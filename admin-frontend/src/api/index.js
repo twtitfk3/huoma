@@ -49,4 +49,13 @@ export const switchLogApi = {
   getDetail: (id) => request.get(`/switch-logs/${id}`)
 }
 
+// 配置相关API
+export const configApi = {
+  // 获取配置
+  get: (key) => request.get(`/config/${key}`),
+  
+  // 设置配置
+  set: (key, value) => request.put(`/config/${key}`, { value })
+}
+
 export default request
