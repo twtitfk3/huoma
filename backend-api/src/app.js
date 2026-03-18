@@ -36,6 +36,16 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// 获取系统配置（域名等）
+app.get('/api/config/domain', (req, res) => {
+    res.json({
+        success: true,
+        data: {
+            domain: process.env.DOMAIN || ''
+        }
+    });
+});
+
 // 404处理
 app.use((req, res) => {
     res.status(404).json({

@@ -67,9 +67,26 @@
             <el-button link type="success" size="small" @click="handleCopyLink(row.code)">
               复制链接
             </el-button>
+            <el-button link type="primary" size="small" @click="handleShowQrCode(row.code)">
+              二维码
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 二维码对话框 -->
+      <el-dialog v-model="qrCodeVisible" title="活码二维码" width="320px" align-center>
+        <div style="text-align: center">
+          <img :src="qrCodeUrl" alt="二维码" style="width: 250px; height: 250px" />
+          <p style="margin-top: 12px; color: #606266; font-size: 13px">
+            扫码或访问：{{ qrCodeUrlDisplay }}
+          </p>
+        </div>
+        <template #footer>
+          <el-button @click="qrCodeVisible = false">关闭</el-button>
+          <el-button type="primary" @click="downloadQrCode">保存图片</el-button>
+        </template>
+      </el-dialog>
 
       <el-pagination
         v-model:current-page="currentPage"
@@ -153,9 +170,18 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { activityApi } from '@/api'
+import { activityApi, configApi } from '@/api'
+import QRCode from 'qrcode'
 
 const router = useRouter()
+
+// 系统域名（从后端获取）
+const systemDomain = ref('')
+
+// 二维码相关
+const qrCodeVisible = ref(false)
+const qrCodeUrl = ref('')
+const qrCodeUrlDisplay = ref('')
 
 // 预备链接槽位定义
 const backupSlots = [
@@ -261,10 +287,10 @@ const handleSwitchConfirm = async () => {
 
 // 复制活码链接
 const handleCopyLink = (code) => {
-  // 自动检测当前页面的协议和域名
-  const protocol = window.location.protocol
-  const domain = window.location.hostname
-  const url = `${protocol}//${domain}/${code}`
+  // 优先使用配置的系统域名，否则fallback到当前页面域名
+  const domain = systemDomain.value || window.location.hostname
+  const protocol = systemDomain.value ? '' : window.location.protocol + '//'
+  const url = systemDomain.value ? `${domain}/${code}` : `${protocol}${domain}/${code}`
   
   // 创建一个临时的 input 元素来复制
   const input = document.createElement('input')
@@ -289,7 +315,48 @@ const handleCopyLink = (code) => {
   document.body.removeChild(input)
 }
 
+// 显示二维码
+const handleShowQrCode = async (code) => {
+  const domain = systemDomain.value || window.location.hostname
+  const protocol = systemDomain.value ? '' : window.location.protocol + '//'
+  const url = systemDomain.value ? `${domain}/${code}` : `${protocol}${domain}/${code}`
+
+  qrCodeUrlDisplay.value = url
+
+  try {
+    qrCodeUrl.value = await QRCode.toDataURL(url, {
+      width: 250,
+      margin: 2,
+      color: { dark: '#000000', light: '#ffffff' }
+    })
+    qrCodeVisible.value = true
+  } catch (err) {
+    ElMessage.error('生成二维码失败')
+  }
+}
+
+// 下载二维码
+const downloadQrCode = () => {
+  const link = document.createElement('a')
+  link.href = qrCodeUrl.value
+  link.download = `活码_${qrCodeUrlDisplay.value.split('/').pop()}.png`
+  link.click()
+}
+
+// 获取系统域名
+const fetchDomain = async () => {
+  try {
+    const res = await configApi.getDomain()
+    if (res.success && res.data && res.data.domain) {
+      systemDomain.value = res.data.domain
+    }
+  } catch (error) {
+    console.error('获取域名失败，使用默认')
+  }
+}
+
 onMounted(() => {
+  fetchDomain()
   fetchActivities()
 })
 </script>

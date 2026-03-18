@@ -53,9 +53,12 @@ export const switchLogApi = {
 export const configApi = {
   // 获取配置
   get: (key) => request.get(`/config/${key}`),
-  
+
   // 设置配置
-  set: (key, value) => request.put(`/config/${key}`, { value })
+  set: (key, value) => request.put(`/config/${key}`, { value }),
+
+  // 获取系统域名
+  getDomain: () => request.get('/config/domain')
 }
 
 export default request
