@@ -90,9 +90,11 @@ const handleSelect = (index) => {
 }
 
 ::deep(.el-menu-item) {
-  border-bottom: 2px solid transparent;
-  margin: 0 4px;
-  padding: 0 12px;
+  border-bottom: 2px solid transparent !important;
+  margin: 0 8px !important;
+  padding: 0 16px !important;
+  height: 60px !important;
+  line-height: 60px !important;
 }
 
 ::deep(.el-menu-item.is-active) {
