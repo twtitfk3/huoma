@@ -14,10 +14,10 @@
           :ellipsis="false"
           @select="handleSelect"
         >
-          <el-menu-item index="/activities">活动管理</el-menu-item>
-          <el-menu-item index="/switch-logs">切换日志</el-menu-item>
-          <el-menu-item index="/help-guide">使用说明</el-menu-item>
-          <el-menu-item index="/help-faq">常见问题</el-menu-item>
+          <el-menu-item index="/activities" class="menu-item-spacing">活动管理</el-menu-item>
+          <el-menu-item index="/switch-logs" class="menu-item-spacing">切换日志</el-menu-item>
+          <el-menu-item index="/help-guide" class="menu-item-spacing">使用说明</el-menu-item>
+          <el-menu-item index="/help-faq" class="menu-item-spacing">常见问题</el-menu-item>
         </el-menu>
       </div>
     </el-header>
