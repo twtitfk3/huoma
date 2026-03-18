@@ -54,7 +54,7 @@ const handleSelect = (index) => {
 </script>
 
 <style scoped>
-* {
+html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -89,7 +89,8 @@ const handleSelect = (index) => {
   justify-content: flex-end;
 }
 
-::deep(.el-menu-item) {
+::deep(.el-menu-item),
+::deep(.menu-item-spacing) {
   border-bottom: 2px solid transparent !important;
   margin: 0 8px !important;
   padding: 0 16px !important;
@@ -97,9 +98,12 @@ const handleSelect = (index) => {
   line-height: 60px !important;
 }
 
-::deep(.el-menu-item.is-active) {
+::deep(.el-menu-item.is-active),
+::deep(.menu-item-spacing.is-active) {
   border-bottom-color: #409eff;
 }
+
+
 
 ::deep(.el-main) {
   padding: 20px;
