@@ -89,7 +89,7 @@ const defaultFaqs = [
   {
     id: 1,
     question: 'Q1：活码是什么？有什么用？',
-    answer: '<p><strong>A：</strong>活码是一个可以动态配置跳转目标的短链接（6位随机码）。</p><p>使用活码的优势：</p><ul><li>链接简洁易记，如：<code>https://example.com/AbC123</code></li><li>可以随时切换主链接，无需通知观众</li><li>支持最多3个预备链接，灵活应对各种场景</li></ul>'
+    answer: '<p><strong>A：</strong>活码是一个可以动态配置跳转目标的短链接（6位随机码）。</p><p>使用活码的优势：</p><ul><li>链接简洁易记，如：<code>https://route.vtc365.cn/AbC123</code></li><li>可以随时切换主链接，无需通知观众</li><li>支持最多3个预备链接，灵活应对各种场景</li></ul>'
   },
   {
     id: 2,

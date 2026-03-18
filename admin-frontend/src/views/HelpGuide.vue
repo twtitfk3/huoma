@@ -38,7 +38,7 @@
             <h3>第二步：使用活码</h3>
             <ol>
               <li>复制生成的活码（如：AbC123）</li>
-              <li>拼接到域名：<el-tag type="info">https://example.com/AbC123</el-tag></li>
+              <li>拼接到域名：<el-tag type="info">https://route.vtc365.cn/AbC123</el-tag></li>
               <li>将链接分享给观众</li>
             </ol>
 

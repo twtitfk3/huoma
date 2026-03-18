@@ -13,11 +13,12 @@
           mode="horizontal"
           :ellipsis="false"
           @select="handleSelect"
+          class="header-menu"
         >
-          <el-menu-item index="/activities">活动管理</el-menu-item>
-          <el-menu-item index="/switch-logs">切换日志</el-menu-item>
-          <el-menu-item index="/help-guide">使用说明</el-menu-item>
-          <el-menu-item index="/help-faq">常见问题</el-menu-item>
+          <el-menu-item index="/activities" class="menu-item-spacing">活动管理</el-menu-item>
+          <el-menu-item index="/switch-logs" class="menu-item-spacing">切换日志</el-menu-item>
+          <el-menu-item index="/help-guide" class="menu-item-spacing">使用说明</el-menu-item>
+          <el-menu-item index="/help-faq" class="menu-item-spacing">常见问题</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -89,12 +90,13 @@ const handleSelect = (index) => {
   justify-content: flex-end;
 }
 
-::deep(.el-menu-item) {
-  border-bottom: 2px solid transparent !important;
+.menu-item-spacing {
   margin: 0 8px !important;
   padding: 0 16px !important;
-  height: 60px !important;
-  line-height: 60px !important;
+}
+
+::deep(.el-menu-item) {
+  border-bottom: 2px solid transparent;
 }
 
 ::deep(.el-menu-item.is-active) {
