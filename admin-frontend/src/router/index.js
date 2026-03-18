@@ -45,7 +45,14 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? `${to.meta.title} - 活码管理系统` : '活码管理系统'
-  next()
+  
+  // 入口安全：访问根路径时强制跳转到 /admin/
+  // 这样观众访问活码链接去掉后缀后，会自动跳转到后台
+  if (to.path === '/' || to.path === '') {
+    next('/admin/')
+  } else {
+    next()
+  }
 })
 
 export default router
