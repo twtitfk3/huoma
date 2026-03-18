@@ -67,28 +67,9 @@
             <el-button link type="success" size="small" @click="handleCopyLink(row.code)">
               复制链接
             </el-button>
-            <el-button link type="primary" size="small" @click="handleShowQrCode(row.code)">
-              二维码
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
-
-      <!-- 二维码对话框 -->
-      <el-dialog v-model="qrCodeVisible" title="活码二维码" width="320px" align-center>
-        <div style="text-align: center">
-          <img :src="qrCodeUrl" alt="二维码" style="width: 250px; height: 250px" />
-          <p style="margin-top: 12px; color: #606266; font-size: 13px">
-            扫码或访问：{{ qrCodeUrlDisplay }}
-          </p>
-        </div>
-        <template #footer>
-          <el-button @click="qrCodeVisible = false">关闭</el-button>
-          <el-button type="primary" @click="downloadQrCode">
-            保存图片
-          </el-button>
-        </template>
-      </el-dialog>
 
       <el-pagination
         v-model:current-page="currentPage"
@@ -173,7 +154,6 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { activityApi } from '@/api'
-import QRCode from 'qrcode'
 
 const router = useRouter()
 
@@ -285,7 +265,7 @@ const handleCopyLink = (code) => {
   const protocol = window.location.protocol
   const domain = window.location.hostname
   const url = `${protocol}//${domain}/${code}`
-
+  
   // 创建一个临时的 input 元素来复制
   const input = document.createElement('input')
   input.value = url
@@ -294,7 +274,7 @@ const handleCopyLink = (code) => {
   document.body.appendChild(input)
   input.select()
   input.setSelectionRange(0, 99999)
-
+  
   try {
     document.execCommand('copy')
     ElMessage.success(`已复制：${url}`)
@@ -305,42 +285,8 @@ const handleCopyLink = (code) => {
       duration: 5000
     })
   }
-
+  
   document.body.removeChild(input)
-}
-
-// 二维码相关
-const qrCodeVisible = ref(false)
-const qrCodeUrl = ref('')
-const qrCodeUrlDisplay = ref('')
-
-const handleShowQrCode = async (code) => {
-  const protocol = window.location.protocol
-  const domain = window.location.hostname
-  const url = `${protocol}//${domain}/${code}`
-
-  qrCodeUrlDisplay.value = url
-
-  try {
-    qrCodeUrl.value = await QRCode.toDataURL(url, {
-      width: 250,
-      margin: 2,
-      color: {
-        dark: '#000000',
-        light: '#ffffff'
-      }
-    })
-    qrCodeVisible.value = true
-  } catch (err) {
-    ElMessage.error('生成二维码失败')
-  }
-}
-
-const downloadQrCode = () => {
-  const link = document.createElement('a')
-  link.href = qrCodeUrl.value
-  link.download = `活码_${qrCodeUrlDisplay.value.split('/').pop()}.png`
-  link.click()
 }
 
 onMounted(() => {
