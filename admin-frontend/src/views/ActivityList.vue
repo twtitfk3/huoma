@@ -266,16 +266,27 @@ const handleCopyLink = (code) => {
   const domain = window.location.hostname
   const url = `${protocol}//${domain}/${code}`
   
-  navigator.clipboard.writeText(url).then(() => {
+  // 创建一个临时的 input 元素来复制
+  const input = document.createElement('input')
+  input.value = url
+  input.style.position = 'fixed'
+  input.style.opacity = '0'
+  document.body.appendChild(input)
+  input.select()
+  input.setSelectionRange(0, 99999)
+  
+  try {
+    document.execCommand('copy')
     ElMessage.success(`已复制：${url}`)
-  }).catch(() => {
-    // 降级方案：弹出提示让用户手动复制
+  } catch (err) {
     ElMessage({
       message: `请手动复制：${url}`,
       type: 'info',
       duration: 5000
     })
-  })
+  }
+  
+  document.body.removeChild(input)
 }
 
 onMounted(() => {
